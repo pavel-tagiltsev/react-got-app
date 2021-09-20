@@ -13,11 +13,13 @@ export default class GotService {
     }
 
     getAllBooks() {
-        return this.getResource(`/books/`);
+        const books = this.getResource(`/books/`);
+        return books.map(this._transformBook);
     }
     
     getBook(id) {
-        return this.getResource(`/books/${id}/`);
+        const book = this.getResource(`/books/${id}/`);
+        return this._transformBook(book);
     }
     
     async getAllCharacters() {
@@ -31,11 +33,13 @@ export default class GotService {
     }
     
     getAllHouses() {
-        return this.getResource(`/houses/`);
+        const houses = this.getResource(`/houses/`);
+        return houses.map(this._transformHouse);
     }
     
     getHouse(id) {
-        return this.getResource(`/houses/${id}/`);
+        const house = this.getResource(`/houses/${id}/`);
+        return this._transformHouse(house);
     }
 
     _trasformCharacter(char) {

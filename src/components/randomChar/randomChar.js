@@ -77,7 +77,7 @@ const View = ({char}) => {
     const {name, gender, born, died, culture} = char;
 
     const isDataAvailable = (data) => {
-        return data ? data : 'No data available';
+        return data ? data : 'No data';
     }
 
     const genderData = isDataAvailable(gender);
