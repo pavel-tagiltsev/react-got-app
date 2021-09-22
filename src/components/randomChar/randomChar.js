@@ -6,16 +6,28 @@ import LoadingPlaceholder from '../loadingPlaceholder/';
 import ErrorMessage from '../errorMessage';
 
 const Char = styled.div`
-    min-height: 370px;
-    background-color: #fff;
+    border-radius: 0.25rem;
+    min-height: 380px;
+    background-color: rgba(255, 255, 255, 0.7);
     padding: 25px 25px 15px 25px;
     margin-bottom: 40px;
+
+    li {
+        background-color: rgba(255, 255, 255, 0);
+    }
 `;
 
 const Title = styled.h4`
     margin-left: 20px;
     margin-bottom: 20px;
-    text-align: left;
+    text-align: center;
+
+`;
+
+const Name = styled.span`
+    display: block;
+    text-align: center;
+    font-weight: bold;
 `;
 
 const Term = styled.span`
@@ -23,16 +35,21 @@ const Term = styled.span`
 `;
 
 export default class RandomChar extends Component {
-    constructor() {
-        super();
-        this.updateChar();
-    }
-    
+
     gotService = new GotService();
     state = {
         char: {},
         loading: true,
         error: false
+    }
+
+    componentDidMount() {
+        this.updateChar();
+        this.timerId = setInterval(this.updateChar, 1500);
+    }
+
+    componentWillUnmount() {
+       clearInterval(this.timerId);
     }
 
     onCharLoaded = (char) => {
@@ -49,7 +66,7 @@ export default class RandomChar extends Component {
         })
     }
 
-    updateChar() {
+    updateChar = () => {
         const id = Math.floor(Math.random() * 2100 + 1);
         this.gotService.getCharacter(id)
             .then(this.onCharLoaded)
@@ -64,7 +81,7 @@ export default class RandomChar extends Component {
         const content = !(loading || error) ? <View char={char}/> : null;
 
         return (
-            <Char className="rounded">
+            <Char>
                 {errorMessage}
                 {loadingPlaceholder}
                 {content}
@@ -76,34 +93,26 @@ export default class RandomChar extends Component {
 const View = ({char}) => {
     const {name, gender, born, died, culture} = char;
 
-    const isDataAvailable = (data) => {
-        return data ? data : 'No data';
-    }
-
-    const genderData = isDataAvailable(gender);
-    const bornData = isDataAvailable(born);
-    const diedData = isDataAvailable(died);
-    const cultureData = isDataAvailable(culture);
-
     return (
         <>
-            <Title>Random Character: {name}</Title>
+            <Title>Random Character: </Title>
+            <Name>{name}</Name>
             <ListGroup className="list-group-flush">
                 <ListGroupItem className="d-flex justify-content-between">
                     <Term>Gender </Term>
-                    <span>{genderData}</span>
+                    <span>{gender}</span>
                 </ListGroupItem>
                 <ListGroupItem className="d-flex justify-content-between">
                     <Term>Born </Term>
-                    <span>{bornData}</span>
+                    <span>{born}</span>
                 </ListGroupItem>
                 <ListGroupItem className="d-flex justify-content-between">
                     <Term>Died </Term>
-                    <span>{diedData}</span>
+                    <span>{died}</span>
                 </ListGroupItem>
                 <ListGroupItem className="d-flex justify-content-between">
                     <Term>Culture </Term>
-                    <span>{cultureData}</span>
+                    <span>{culture}</span>
                 </ListGroupItem>
             </ListGroup>
         </>

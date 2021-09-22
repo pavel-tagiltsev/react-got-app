@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
+import CharacterPage from '../characterPage';
+import ErrorMessage from '../errorMessage';
 
 import styled from 'styled-components';
 
@@ -14,17 +14,32 @@ const Toggle = styled.button`
     color: white;
     padding: 5px 10px 5px 10px;
     margin-bottom: 40px;
+    
+    :hover {
+        opacity: 0.8;
+    }
+
+    :active {
+        opacity: 0.6;
+    }
 `;
 
 const Placeholder = styled.div`
     min-height: 370px;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 `;
 
 export default class App extends Component {
 
     state = {
-        isRandomCharVisible: true
+        isRandomCharVisible: true,
+        error: false
+    }
+
+    componentDidCatch() {
+        this.setState({
+            error: true
+        })
     }
 
     toggleRandomChar = () => {
@@ -40,6 +55,10 @@ export default class App extends Component {
 
         const show = isRandomCharVisible ? <RandomChar/> : <Placeholder></Placeholder>;
 
+        if (this.state.error) {
+            return <ErrorMessage/>
+        }
+        
         return (
             <> 
                 <Container>
@@ -52,14 +71,7 @@ export default class App extends Component {
                             <Toggle onClick={this.toggleRandomChar}>Random Character</Toggle>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
-                        </Col>
-                    </Row>
+                    <CharacterPage/>
                 </Container>
             </>
         );

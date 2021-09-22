@@ -1,60 +1,96 @@
 import React from "react";
 import styled from "styled-components";
-import { ListGroup, ListGroupItem } from "reactstrap";
 
-const Title = styled.h4`
-    margin-left: 20px;
-    margin-bottom: 20px;
-    text-align: left;
+const Wrapper = styled.div`
+    position:relative;
+    width:336px;
+    height:336px;
+    margin:auto;
+    transform:scale(0.6);
 `;
 
-const Term = styled.span`
-    font-weight: bold;
-`;
+const Circle = styled.div`
+    position:absolute;
+    background-color:rgba(184,149,95,0.99);
+    height:60px;
+    width:60px;
+    border-radius:32px;
+    animation-name:f_fadeG;
+    animation-duration:1.2s;
+    animation-iteration-count:infinite;
+    animation-direction:normal;
 
-const Placeholder= styled.span`
-    display: inline-block;
-    width: 50%;
-    height: 20px;
-
-    animation-duration: 1.7s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    animation-name: placeholderAnimate;
-    background: #f6f7f8;
-    background: linear-gradient(to right, #eee 2%, #ddd 18%, #eee 33%);
-    background-size: 1300px;
-
-    @keyframes placeholderAnimate {
-        0%{ background-position: -650px 0; }
-        100%{ background-position: 650px 0; }
+    @keyframes f_fadeG{
+        0%{
+            background-color:rgb(255,255,255);
+        }
+    
+        100%{
+            background-color:rgba(184,149,95,0.97);
+        }
     }
+`;
+
+const CircleA = styled(Circle)`
+    left:0;
+    top:137px;
+    animation-delay:0.45s;
+`;
+
+const CircleB = styled(Circle)`
+    left:39px;
+    top:39px;
+    animation-delay:0s;
+`;
+
+const CircleC = styled(Circle)`
+    left:137px;
+    top:0;
+    animation-delay:0.15s;
+`;
+
+const CircleD = styled(Circle)`
+    right:39px;
+    top:39px;
+    animation-delay:0.30s;
+`;
+
+const CircleF = styled(Circle)`
+    right:0;
+    top:137px;
+    animation-delay:0.45s;
+`;
+
+const CircleG = styled(Circle)`
+    right:39px;
+    bottom:39px;
+    animation-delay:0.60s;
+`;
+
+const CircleH = styled(Circle)`
+    left:137px;
+    bottom:0;
+    animation-delay:0.75s;
+`;
+
+const CircleI = styled(Circle)`
+    left:39px;
+    bottom:39px;
+    animation-delay:0.90s;
 `;
 
 const LoadingPlaceholder = () => {
     return (
-    <>     
-        <Title>Random Character: </Title>
-        <ListGroup className="list-group-flush">
-            <ListGroupItem className="d-flex justify-content-between">
-                <Term>Gender </Term>
-                <Placeholder></Placeholder>
-            </ListGroupItem>
-            <ListGroupItem className="d-flex justify-content-between">
-                <Term>Born </Term>
-                <Placeholder></Placeholder>
-            </ListGroupItem>
-            <ListGroupItem className="d-flex justify-content-between">
-                <Term>Died</Term>
-                <Placeholder></Placeholder>
-            </ListGroupItem>
-            <ListGroupItem className="d-flex justify-content-between">
-                <Term>Culture </Term>
-                <Placeholder></Placeholder>
-            </ListGroupItem>
-        </ListGroup>
-    </>
+        <Wrapper>
+            <CircleA></CircleA>
+            <CircleB></CircleB>
+            <CircleC></CircleC>
+            <CircleD></CircleD>
+            <CircleF></CircleF>
+            <CircleG></CircleG>
+            <CircleH></CircleH>
+            <CircleI></CircleI>
+        </Wrapper>
     )
 }
 
