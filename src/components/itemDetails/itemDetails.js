@@ -66,7 +66,7 @@ export default class ItemDetails extends Component {
     }
 
     updateItem() {
-        const {itemId} = this.props;
+        const {itemId, getData} = this.props;
 
         if (!itemId) {
             return;
@@ -76,8 +76,7 @@ export default class ItemDetails extends Component {
             loading: true
         })
 
-        this.gotService.getCharacter(itemId)
-            .then(this.onItemDetailsLoaded)
+        getData(itemId).then(this.onItemDetailsLoaded)
             .catch(() => this.onError())
     }
 
