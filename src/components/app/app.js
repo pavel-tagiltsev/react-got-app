@@ -13,6 +13,7 @@ const Toggle = styled.button`
     border: none;
     color: white;
     padding: 5px 10px 5px 10px;
+    margin-top: 20px;
     margin-bottom: 40px;
     
     :hover {
@@ -65,13 +66,13 @@ export default class App extends Component {
                     <Header />
                 </Container>
                 <Container>
+                    <CharacterPage/>
                     <Row>
                         <Col lg={{size: 5, offset: 0}}>
-                            {show}
                             <Toggle onClick={this.toggleRandomChar}>Random Character</Toggle>
+                            {show}
                         </Col>
                     </Row>
-                    <CharacterPage/>
                 </Container>
             </>
         );

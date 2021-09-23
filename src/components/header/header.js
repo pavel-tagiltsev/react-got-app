@@ -6,6 +6,7 @@ const HeaderBlock = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 80px;
+    margin-bottom: 40px;
 `;
 
 const HeaderTitle = styled.h3`

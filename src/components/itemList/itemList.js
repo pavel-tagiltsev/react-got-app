@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import styled from 'styled-components';
-import GotService from '../services/gotService';
 import LoadingPlaceholder from '../loadingPlaceholder/';
 
 const Wrapper = styled.ul`
@@ -23,37 +22,37 @@ const Wrapper = styled.ul`
 
 export default class ItemList extends Component {
 
-    gotService = new GotService();
-
     state = {
-        charList: null,
+        itemList: null,
     };
 
     componentDidMount() {
-        this.gotService.getAllCharacters()
-            .then((charList) => {
-                this.setState({charList})
+        const {getData} = this.props;
+
+        getData().then((itemList) => {
+                this.setState({itemList})
             })
     }
 
     renderItems(arr) {
         return arr.map((item) => {
-            const {name, id} = item;
+            const {id} = item;
+            const label = this.props.renderItem(item);
 
             return (
                 <ListGroupItem
                     key={id}
-                    onClick={() => this.props.onCharSelected(id)}>
-                        {name}
+                    onClick={() => this.props.onItemSelected(id)}>
+                        {label}
                 </ListGroupItem>
             )
         })
     }
 
     render() {
-        const {charList} = this.state;
+        const {itemList} = this.state;
 
-        if (!charList) {
+        if (!itemList) {
             return(
                 <Wrapper>
                     <LoadingPlaceholder/>
@@ -61,7 +60,7 @@ export default class ItemList extends Component {
             )
         }
 
-        const items = this.renderItems(charList);
+        const items = this.renderItems(itemList);
 
         return (
             <Wrapper className="rounded">
