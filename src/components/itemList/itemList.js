@@ -3,7 +3,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import styled from 'styled-components';
 import LoadingPlaceholder from '../loadingPlaceholder/';
 
-const Wrapper = styled.ul`
+const Wrapper = styled.div`
     background-color: rgba(255, 255, 255, 0.7);
 
     li {

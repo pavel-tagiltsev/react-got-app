@@ -4,9 +4,10 @@
 	padding: 0;
     outline: none;
 }
+
 body {
     overflow-x: hidden;
-    background: url('img/characters.jpg') center center no-repeat;
+    background: url('img/background.jpg') center center no-repeat;
     background-size: cover;
     font-size: 16px;
     min-height: 1200px;	
