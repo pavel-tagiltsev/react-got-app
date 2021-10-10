@@ -1,26 +1,21 @@
-import React, {Component} from 'react';
-import {Col, Row} from 'reactstrap';
-import ItemList from '../itemList';
-import ErrorMessage from '../errorMessage';
-import GotService from '../services/gotService';
+import React from 'react';
 import {withRouter} from 'react-router-dom';
+import Page from './page';
+import ItemList from '../itemList';
+import {Col, Row} from 'reactstrap';
+import ErrorMessage from '../errorMessage';
 
-class BookPage extends Component {
-
-    gotService = new GotService();
+class BookPage extends Page {
+    listRequest = this.gotService.getAllBooks;
 
     state = {
         error: false
     }
 
-    componentDidCatch() {
-        this.setState({
-            error: true
-        })
-    }
-
     render() {
         const {error} = this.state.error;
+        const {history} = this.props;
+        const {listRequest} = this;
 
         if (error) {
             return (
@@ -35,9 +30,9 @@ class BookPage extends Component {
         return (
             <ItemList 
                 onItemSelected={(itemId) => {
-                    this.props.history.push(itemId)
+                    history.push(itemId)
                 }}
-                getData={this.gotService.getAllBooks}
+                getData={listRequest}
                 renderItem={({name}) => `${name}`}/>
         )
     }

@@ -2,14 +2,16 @@ import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import {CharacterPage, BookPage, HousePage, BooksItem} from '../pages';
+import {CharacterPage, BookPage, HousePage, BooksItem, HomePage} from '../pages';
 import ErrorMessage from '../errorMessage';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
-import backgroundImg from "./background.jpg"
+import NotFound from '../404';
+import backgroundImg from './background.jpg';
+import houses from './houses.jpg';
 
 const AppWrapper = styled.div`
-    background: #fff url(${backgroundImg}) center center no-repeat;
+    background: #fff url(${props => props.yes ? backgroundImg : houses}) center center no-repeat;
     background-size: cover;
     min-height: 1200px;
 `;
@@ -59,38 +61,41 @@ export default class App extends Component {
     }
 
     render() {
-        const {isRandomCharVisible} = this.state;
+        const {isRandomCharVisible, error} = this.state;
 
         const show = isRandomCharVisible ? <RandomChar/> : <Placeholder></Placeholder>;
 
-        if (this.state.error) {
+        if (error) {
             return <ErrorMessage/>
         }
-        
+
         return (
             <Router>
-                <AppWrapper>
+                <AppWrapper yes>
                     <Container>
                         <Header />
                     </Container>
                     <Container>
-                        <Route path='/' exact component={() => <h1>Welcome to Game of Thrones DB</h1>}/>
-                        <Route path='/characters' component={CharacterPage}/>
-                        <Route path='/houses' component={HousePage}/>
-                        <Route path='/books' exact component={BookPage}/>
-                        <Route path='/books/:id' render={
-                            ({match}) => {
-                                const {id} = match.params;
-
-                                return <BooksItem bookId={id}/>
-                            }
-                        }/>
-                        <Row>
-                            <Col lg={{size: 5, offset: 0}}>
-                                <Toggle onClick={this.toggleRandomChar}>Random Character</Toggle>
-                                {show}
-                            </Col>
-                        </Row>
+                        <Switch>
+                            <Route path='/' exact component={HomePage}/>
+                            <Route path='/characters' component={CharacterPage}/>
+                            <Route path='/houses' component={HousePage}/>
+                            <Route path='/books' exact component={BookPage}/>
+                            <Route path='/books/:id' render={
+                                ({match}) => {
+                                    const {id} = match.params;
+                                    
+                                    return <BooksItem bookId={id}/>
+                                }
+                            }/>
+                            <Route path='*' component={NotFound}/>
+                        </Switch>
+                            <Row>
+                                <Col lg={{size: 5, offset: 0}}>
+                                    <Toggle onClick={this.toggleRandomChar}>Random Character</Toggle>
+                                    {show}
+                                </Col>
+                            </Row>
                     </Container>
                 </AppWrapper>
             </Router>

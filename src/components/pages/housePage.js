@@ -1,34 +1,23 @@
-import React, {Component} from 'react';
-import {Col, Row} from 'reactstrap';
+import React from 'react';
+import Page from './page';
+import RowBlock from '../rowBlock';
 import ItemList from '../itemList';
 import ItemDetails, {Field} from '../itemDetails';
+import {Col, Row} from 'reactstrap';
 import ErrorMessage from '../errorMessage';
-import GotService from '../services/gotService';
-import RowBlock from '../rowBlock';
 
-export default class HousePage extends Component {
-
-    gotService = new GotService();
+export default class HousePage extends Page {
+    detailsRequest = this.gotService.getHouse;
+    listRequest = this.gotService.getAllHouses;
 
     state = {
         selectedChar: null,
         error: false
     }
 
-    componentDidCatch() {
-        this.setState({
-            error: true
-        })
-    }
-
-    onItemSelected = (id) => {
-        this.setState({
-            selectedChar: id
-        })
-    }
-
     render() {
-        const {error} = this.state.error;
+        const {error, selectedItem} = this.state;
+        const {detailsRequest, listRequest, onItemSelected} = this;
 
         if (error) {
             return (
@@ -42,15 +31,16 @@ export default class HousePage extends Component {
 
         const itemList = (
             <ItemList 
-                onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllHouses}
+                onItemSelected={onItemSelected}
+                getData={listRequest}
                 renderItem={({name}) => `${name}`}/>
         )
 
         const itemDetails = (
             <ItemDetails 
-            itemId={this.state.selectedChar}
-            getData={this.gotService.getHouse}>
+            itemId={selectedItem}
+            getData={detailsRequest}
+            placeholder={'house'}>
                 <Field field="region" label="Region"/>
                 <Field field="words" label="Words"/>
                 <Field field="titles" label="Titles"/>

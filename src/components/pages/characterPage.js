@@ -1,34 +1,23 @@
-import React, {Component} from 'react';
-import {Col, Row} from 'reactstrap';
+import React from 'react';
+import Page from './page';
+import RowBlock from '../rowBlock';
 import ItemList from '../itemList';
 import ItemDetails, {Field} from '../itemDetails';
+import {Row, Col} from 'reactstrap';
 import ErrorMessage from '../errorMessage';
-import GotService from '../services/gotService';
-import RowBlock from '../rowBlock';
 
-export default class CharacterPage extends Component {
-
-    gotService = new GotService();
+export default class CharacterPage extends Page {
+    detailsRequest = this.gotService.getCharacter;
+    listRequest = this.gotService.getAllCharacters;
 
     state = {
-        selectedChar: null,
+        selectedItem: null,
         error: false
     }
 
-    componentDidCatch() {
-        this.setState({
-            error: true
-        })
-    }
-
-    onItemSelected = (id) => {
-        this.setState({
-            selectedChar: id
-        })
-    }
-
     render() {
-        const {error} = this.state.error;
+        const {error, selectedItem} = this.state;
+        const {detailsRequest, listRequest, onItemSelected} = this;
 
         if (error) {
             return (
@@ -42,15 +31,16 @@ export default class CharacterPage extends Component {
 
         const itemList = (
             <ItemList 
-                onItemSelected={this.onItemSelected}
-                getData={this.gotService.getAllCharacters}
+                onItemSelected={onItemSelected}
+                getData={listRequest}
                 renderItem={({name}) => `${name}`}/>
         )
 
         const itemDetails = (
             <ItemDetails 
-            itemId={this.state.selectedChar}
-            getData={this.gotService.getCharacter}>
+            itemId={selectedItem}
+            getData={detailsRequest}
+            placeholder={'character'}>
                 <Field field="gender" label="Gender"/>
                 <Field field="born" label="Born"/>
                 <Field field="died" label="Died"/>

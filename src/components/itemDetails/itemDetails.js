@@ -89,9 +89,10 @@ export default class ItemDetails extends Component {
 
     render() {
         const {item, loading, error} = this.state;
+        const placeholder = `Please select a ${this.props.placeholder}`;
 
         const errorMessage = error && !item ? <Item className="rounded"><ErrorMessage/></Item> : null;
-        const message = !item && !error ? <Message>Please select a character</Message> : null;
+        const message = !item && !error ? <Message>{placeholder}</Message> : null;
         const loadingPlaceholder = loading && item ? <Item className="rounded"><LoadingPlaceholder/></Item> : null;
         const content = !(loading || error) ? <Item className="rounded"><View item={item} children={this.props.children}/></Item> : null;
   
