@@ -4,7 +4,7 @@ import Header from '../header';
 import RandomChar from '../randomChar';
 import {CharacterPage, BookPage, HousePage, BooksItem, HomePage} from '../pages';
 import ErrorMessage from '../errorMessage';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import styled from 'styled-components';
 import NotFound from '../404';
 import backgroundImg from './background.jpg';
